@@ -18,12 +18,13 @@ const upload = multer({ storage: storage });
 // Create a Question
 router.post('/add', upload.single('img'), (req, res, next) => {
   console.log(req.file)
+    const title = req.body.title;
     const quiz = req.body.quiz;
     const options = req.body.options;
     const correctAnswer = req.body.correctAnswer;
 
     newQuestion = new Question({
-        img: req.file,
+        title: title,
         quiz: quiz,
         options: options,
         correctAnswer: correctAnswer,

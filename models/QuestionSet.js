@@ -1,11 +1,11 @@
-import { QuestionSchema } from "./Questions";
+import { QuestionSchema } from "./Question";
 const mongoose = require('mongoose');
 
 const QuestionSetSchema = mongoose.Schema({
   questionSet: {
     type: [QuestionSchema],
     validate: {
-      validator: function(value: any) {
+      validator: function(value: []) {
         return value.length === 5;
       },
       message: 'Question set must be 5.'
@@ -16,5 +16,4 @@ const QuestionSetSchema = mongoose.Schema({
 });
 
 module.exports = mongoose.model('QuestionSetSchema', QuestionSetSchema);
-const QuestionSet = newModel({QuestonSetSchema})
 newDocument.save()
