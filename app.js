@@ -20,7 +20,7 @@ mongoose.connect(db, {
 });
 
 // Defining the PORT
-const port = process.env.PORT || 6000;
+const port = process.env.PORT || 3000;
 
 // Initialize cors Middleware
 app.use(cors());
@@ -42,7 +42,7 @@ const adminRoutes = require('./routes/apis/admin');
 const userRoutes = require('./routes/apis/user');
 
 app.use('/api/admin', adminRoutes);
-app.use('/api/user', userRoutes);
+app.use('/applicant', userRoutes);
 
 app.listen(port, () => {
     console.log('server started on Port', port)
