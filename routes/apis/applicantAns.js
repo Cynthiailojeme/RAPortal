@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const QuestionSet = require('../../models/QuestionSet');
+const ApplicantAns = require('../../models/ApplicantAns');
 
 // Create a Question
-router.post('/add', (req, res, next) => {
+router.put('/add', (req, res, next) => {
     console.log(req.file)
       const quiz = req.body.quiz;
       const options = req.body.options;

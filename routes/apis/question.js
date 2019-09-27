@@ -2,29 +2,61 @@ const express = require('express');
 const router = express.Router();
 const Question = require('../../models/Question');
 const multer = require('multer');
-// const upload = multer({dest: 'uploads/'});
+const path = require('path');
 
 var storage = multer.diskStorage({
     destination: 'uploads',
     filename: function (req, file, cb) {
-      cb(null, file.fieldname + '-' + Date.now() +'.jpg')
-     
+      cb(null, Date.now() + file.fieldname + path.extname(file.originalname));    
     }
-
   })
   
 const upload = multer({ storage: storage });
 
+
+router.get("/all", (req, res, next) => {
+  Question.find()
+    .select("quiz options img correctAnswer")
+    .exec()
+    .then(docs => {
+      const response = {
+        count: docs.length,
+        questions: docs.map(doc => {
+          return {
+            quiz: doc.quiz,
+            options: doc.options,
+            productImage: doc.productImage,
+            correctAnswer: doc.correctAnswer,
+            _id: doc._id
+          };
+        })
+      };
+      if (docs.length >= 0) {
+      res.status(200).json(response);
+        } else {
+            res.status(404).json({
+                message: 'No entries found'
+            });
+        } 
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    });
+});
+
 // Create a Question
 router.post('/add', upload.single('img'), (req, res, next) => {
   console.log(req.file)
-    const title = req.body.title;
     const quiz = req.body.quiz;
     const options = req.body.options;
     const correctAnswer = req.body.correctAnswer;
+    const img = req.file.path;
 
     newQuestion = new Question({
-        title: title,
+        img: img,
         quiz: quiz,
         options: options,
         correctAnswer: correctAnswer,
@@ -41,13 +73,27 @@ router.post('/add', upload.single('img'), (req, res, next) => {
 });
 
 
-// Get a Question set
-router.get('/all', (req, res, next) => {
-    Question.find()
-        .then((questions) => {
-            res.json(questions);
-        })
-        .catch(err => console.log(err))
+router.get("/:id", (req, res, next) => {
+  const id = req.params.id;
+  Question.findById(id)
+    .select('quiz options img correctAnswer')
+    .exec()
+    .then(doc => {
+      console.log("From database", doc);
+      if (doc) {
+        res.status(200).json({
+            question: doc
+        });
+      } else {
+        res
+          .status(404)
+          .json({ message: "No valid entry found for provided ID" });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ error: err });
+    });
 });
 
 // make delete request

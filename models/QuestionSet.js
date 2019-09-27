@@ -5,7 +5,7 @@ const QuestionSetSchema = mongoose.Schema({
   questionSet: {
     type: [QuestionSchema],
     validate: {
-      validator: function(value: []) {
+      validator: function(value) {
         return value.length === 5;
       },
       message: 'Question set must be 5.'
@@ -16,4 +16,3 @@ const QuestionSetSchema = mongoose.Schema({
 });
 
 module.exports = mongoose.model('QuestionSetSchema', QuestionSetSchema);
-newDocument.save()

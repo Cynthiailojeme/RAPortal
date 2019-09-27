@@ -9,19 +9,23 @@ const QuestionSchema = mongoose.Schema({
         maxlength: 1000,
         required: true
       },
-    options: {
-      type: [],
-      default: undefined,
-      validate: {
-        validator: function(value) {
-          return value && value.length === 4;
-        },
-      message: 'Answer options should be 4.'
-    },
+    img: { 
+        type: String, 
+        required: true
+      },
     correctAnswer: {
-        type: String,
-        default: undefined
-      }}
+          type: String,
+          default: undefined
+        },
+    options: {
+          type: [],
+          default: undefined,
+          validate: {
+            validator: function(value) {
+              return value && value.length === 4;
+            },
+      message: 'Answer options should be 4.'
+    },}
     },
       {
       timestamps: true
