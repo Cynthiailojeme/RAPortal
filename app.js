@@ -25,6 +25,8 @@ const port = process.env.PORT || 3000;
 // Initialize cors Middleware
 app.use(cors());
 
+
+app.use('/uploads', express.static('uploads'));
 // Initialize BodyParser Middleware
 app.use(bodyParser.json());
 
@@ -41,10 +43,12 @@ app.get('/', (req, res) => {
 const adminRoutes = require('./routes/apis/admin');
 const userRoutes = require('./routes/apis/user');
 const questionRoutes = require('./routes/apis/question');
+const questionSetRoutes = require('./routes/apis/question');
 
 app.use('/api/admin', adminRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/question', questionRoutes);
+app.use('/api/question', questionSetRoutes);
 
 app.listen(port, () => {
     console.log('server started on Port', port)
