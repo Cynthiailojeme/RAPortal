@@ -46,6 +46,12 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/form', formRoutes);
 
+const questionRoutes = require('./routes/apis/question');
+
+app.use('/api/admin', adminRoutes);
+app.use('/api/user', userRoutes);
+app.use('/api/question', questionRoutes);
+
 app.listen(port, () => {
     console.log('server started on Port', port)
 });
