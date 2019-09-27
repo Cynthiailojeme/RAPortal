@@ -40,6 +40,12 @@ app.get('/', (req, res) => {
 
 const adminRoutes = require('./routes/apis/admin');
 const userRoutes = require('./routes/apis/user');
+const formRoutes = require('./routes/apis/form');
+
+app.use('/api/admin', adminRoutes);
+app.use('/api/user', userRoutes);
+app.use('/api/form', formRoutes);
+
 const questionRoutes = require('./routes/apis/question');
 
 app.use('/api/admin', adminRoutes);
