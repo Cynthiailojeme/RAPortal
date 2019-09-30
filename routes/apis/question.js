@@ -25,7 +25,7 @@ router.get("/all", (req, res, next) => {
           return {
             quiz: doc.quiz,
             options: doc.options,
-            productImage: doc.productImage,
+            img: doc.img,
             correctAnswer: doc.correctAnswer,
             _id: doc._id
           };
@@ -48,15 +48,15 @@ router.get("/all", (req, res, next) => {
 });
 
 // Create a Question
-router.post('/add', upload.single('img'), (req, res, next) => {
+router.post('/add', upload.single('image'), (req, res, next) => {
   console.log(req.file)
     const quiz = req.body.quiz;
     const options = req.body.options;
     const correctAnswer = req.body.correctAnswer;
-    const img = req.file.path;
+    const image = req.file.path;
 
     newQuestion = new Question({
-        img: img,
+        image: image,
         quiz: quiz,
         options: options,
         correctAnswer: correctAnswer,
