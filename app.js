@@ -49,12 +49,12 @@ app.use('/api/user', userRoutes);
 app.use('/api/form', formRoutes);
 
 const questionRoutes = require('./routes/apis/question');
-const questionSetRoutes = require('./routes/apis/question');
+const questionSetRoutes = require('./routes/apis/questionSet');
 
 app.use('/api/admin', adminRoutes);
-app.use('/api/user', userRoutes);
+app.use('/applicant', userRoutes);
 app.use('/api/question', questionRoutes);
-app.use('/api/question', questionSetRoutes);
+app.use('/api/questionset', questionSetRoutes);
 
 app.listen(port, () => {
     console.log('server started on Port', port)
