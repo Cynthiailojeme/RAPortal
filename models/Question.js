@@ -9,9 +9,8 @@ const QuestionSchema = mongoose.Schema({
         maxlength: 1000,
         required: true
       },
-    img: { 
-        type: String, 
-        required: true
+    image: { 
+        type: String
       },
     correctAnswer: {
           type: String,

@@ -5,14 +5,10 @@ const validateObjectId = (id) => ObjectId.isValid(id) && (new ObjectId(id)).toSt
 const ApplicantAnsSchema = new Schema({
     applicant: {
       type: Schema.Types.ObjectId,
-      ref: 'applicant'
+      ref: 'user'
     },
-    // questionSet: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: 'QuestionSet'
-    // },
     questionAnswers: {
-      type: [Number] // You can add answer schema
+      type: [String] // You can add answer schema
     },
     totalScore: {
       type: Number
@@ -21,7 +17,8 @@ const ApplicantAnsSchema = new Schema({
       type: Boolean,
       default: false
     }
-  }, {
+  },
+  {
     timestamps: true
   });
   
