@@ -1,11 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const Form = require('../../models/Form');
+const getAge = require('get-age');
 
 
 //Get all the users
 router.get('/', (req, res, next) => {
-    Form.find()
+    Form.find({}, null, {sort: {firstname: 1}}, function (err, forms) {
+            if (err) {
+                console.log(err);
+            }
+            console.log(forms);
+        })
     .then((forms) => {
         res.json(forms);
     })
@@ -36,6 +42,7 @@ router.post('/add', (req, res, next) => {
     newForm.save()
     .then(form => {
         res.json(form);
+        res.json({success : true})
     })
     .catch(err => console.log(err));
 });
@@ -95,5 +102,22 @@ router.get('/single/:id', (req, res, next) => {
     })
     .catch(err => console.log(err))
 });
+
+// ROUTES
+// app.get('/',function(req,res){
+//   res.sendFile(__dirname + '/Application-form.vue');
+ 
+// });
+
+// app.post('/uploadfile', upload.single('myFile'), (req, res, next) => {
+//   const file = req.file
+//   if (!file) {
+//     const error = new Error('Please upload a file')
+//     error.httpStatusCode = 400
+//     return next(error)
+//   }
+//     res.send(file)
+  
+// })
 
 module.exports = router;

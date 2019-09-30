@@ -2,7 +2,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const path = require('path'); 
+const path = require('path');
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' }) 
 
 const app = express();
 const db = require('./config/db').database;
@@ -35,6 +37,16 @@ app.use(bodyParser.json());
 // app.get('*', (req, res) => {
 //     res.sendFile(path.join(__dirname, 'public/index.html'));
 // });
+
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/Application-form.vue');
+});
+
+// It's very crucial that the file name matches the name attribute in your html
+app.post('/', upload.single('myFile'), (req, res) => {
+  res.redirect('/');
+});
+
 
 app.get('/', (req, res) => {
     res.send('<h1>Hello World</h1>')

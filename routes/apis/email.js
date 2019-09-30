@@ -1,3 +1,4 @@
+const dotenv = require('dotenv');
 // var helper = require('sendgrid').mail;
 // const async = require('async');
 // function sendEmail(
@@ -77,10 +78,10 @@
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const msg = {
-  to: 'adisamicheal5@gmail.com',
-  from: 'adisamicheal20@gmail.com',
-  subject: 'Sending with SendGrid is Fun',
-  text: 'and easy to do anywhere, even with Node.js',
-  html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+  to: ['recipient1@example.org', 'recipient2@example.org'],
+  from: 'adisamicheal20',
+  subject: 'Hello world',
+  text: 'Hello plain world!',
+  html: '<p>Hello HTML world!</p>',
 };
 sgMail.send(msg);
