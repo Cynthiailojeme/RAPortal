@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
 const multer  = require('multer')
+const nodemailer = require('nodemailer')
 const upload = multer({ dest: 'uploads/' }) 
 
 const app = express();
@@ -28,7 +29,7 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 
 
-app.use('/uploads', express.static('uploads'));
+// app.use('/uploads', express.static('uploads'));
 // Initialize BodyParser Middleware
 app.use(bodyParser.json());
 
@@ -55,10 +56,16 @@ app.get('/', (req, res) => {
 const adminRoutes = require('./routes/apis/admin');
 const userRoutes = require('./routes/apis/user');
 const formRoutes = require('./routes/apis/form');
+const recruitRoutes = require('./routes/apis/recruit');
+const createRoutes = require('./routes/apis/create');
+
 
 app.use('/api/admin', adminRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/form', formRoutes);
+app.use('/recruit', recruitRoutes);
+app.use('/attach', createRoutes);
+
 
 const questionRoutes = require('./routes/apis/question');
 const questionSetRoutes = require('./routes/apis/questionSet');
