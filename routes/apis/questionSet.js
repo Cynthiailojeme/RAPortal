@@ -8,11 +8,13 @@ router.post('/add', (req, res, next) => {
       const nameOfSet = req.body.nameOfSet;
       const quiz = req.body.quiz;
       const duration = req.body.duration;
+      const dateOfAsess = req.body.dateOfAsess;
   
       newQuestionSet = new QuestionSet({
         nameOfSet: nameOfSet,
           quiz: quiz,
           duration: duration,
+          dateOfAsess: dateOfAsess,
           timestamps: true
       });
       newQuestionSet.save()
@@ -25,24 +27,14 @@ router.post('/add', (req, res, next) => {
       .catch(err => console.log(err));
   });
 
-  // Get all one questionset
+  // Get one questionset
 router.get('/single/:id', (req, res, next) => {
   //Grab the id of the questionset
   let id = req.params.id;
   QuestionSet.findById(id)
       .then((questionset) => {
+        console.log(questionset)
           res.json(questionset);
-      })
-      .catch(err => console.log(err))
-});
-
- // Get all one question
- router.get('/singlequestion/:id', (req, res, next) => {
-  //Grab the id of the questionset
-  let id = req.params.id;
-  QuestionSet.findById(id)
-      .then((quiz) => {
-          res.json(quiz);
       })
       .catch(err => console.log(err))
 });

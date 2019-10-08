@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const {Types: {ObjectId}} = mongoose;
+const validateObjectId = (id) => ObjectId.isValid(id) && (new ObjectId(id)).toString() === id;
 
 const QuestionSetSchema = mongoose.Schema({
   nameOfSet: {
@@ -31,16 +33,15 @@ const QuestionSetSchema = mongoose.Schema({
       }
       },
     ]
-    // validate: {
-    //   validator: function(value) {
-    //     return value.length > 10 <= 30;
-    //   },
-    //   message: 'Question must contain be 10 to 30 questions.'
-    // }
   },
   duration: {
-      type: Number
+      type: String,
+      required: true
   },
+  dateOfAsess: {
+    type: String,
+    required: true
+  }
 }, {
   timestamps: true
 });
