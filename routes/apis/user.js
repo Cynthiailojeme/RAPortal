@@ -4,6 +4,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 
 const User = require('../../models/user');
+// const auth = require('../middleware/auth');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -11,12 +12,24 @@ dotenv.config();
 
 router.get('/', (req, res, next) => {
 User.find()
-   
+
 .then((user) => {
-    res.json(user);
-    })
-    .catch(err => console.log(err))
+res.json();
+})
+.catch(err => console.log(err))
+});
+
+ router.get('/single/:id', (req, res, next) => {
+        //Grab the id of each applicant
+        let id = req.params.id;
+        User.findById(id)
+            .then((user) => {
+                res.json(user);
+            
+            })
+            .catch(err => console.log(err))
     });
+
 
 router.post('/signup',(req, res, next) => {
     let error = [];
@@ -28,11 +41,14 @@ router.post('/signup',(req, res, next) => {
         return res.status(401).json({
             message:"password must be at least 4 characters"
     });
-    }else {
-        res.status(201).json({
-        message: ' signup successfully',
-    });
-    }}
+    }
+
+    // else {
+    //     res.status(201).json({
+    //     message: ' signup successfully',
+    // });
+    // }
+}
 
 User.find({email: req.body.email})
     .exec()
@@ -51,7 +67,10 @@ User.find({email: req.body.email})
     const user = new User({
     _id: new mongoose.Types.ObjectId(),
     email: req.body.email,
-    password: hash
+    password: hash,
+    first_name:req.body.first_name,
+    last_name:req.body.last_name,
+    phone_number:req.body.phone_number
 });
     user
     .save()
@@ -59,6 +78,7 @@ User.find({email: req.body.email})
     console.log(result);
     res.status(201).json({
 message: ' signup successfully',
+user:user,
 
 });
 
@@ -78,9 +98,11 @@ error: err
 });
 
 router.post("/login", (req, res, next) => {
+
     User.find({email: req.body.email})
         .exec()
         .then(user => {
+         console.log("USER ==> ", user)
         if (user.length < 1 ){
              return res.status(403).json({
             message: 'Authentication Failed, please enter correct email and password'
@@ -103,9 +125,12 @@ router.post("/login", (req, res, next) => {
     // expiresIn: "1h"
     }
 );
+
     return res.status(200).json({
         message: 'Login successfull',
-        token: token
+        token: token,
+        user: user[0]
+        
     });
 }
     res.status(401).json({
@@ -122,6 +147,9 @@ router.post("/login", (req, res, next) => {
 
 
 });
+
+
+
 
 router.delete('/:userId', (req, res, next) =>{
     User.remove({_id: req.params.userId})
