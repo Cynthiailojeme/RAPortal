@@ -2,13 +2,17 @@ const mongoose = require('mongoose');
 
 const userSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    first_name:{
-        type: String,
-        required: false, 
-    },
-    last_name:{
-        type: String,
-        required: false,
+    // first_name:{
+    //     type: String,
+    //     required: false, 
+    // },
+    // last_name:{
+    //     type: String,
+    //     required: false,
+    // },
+
+    token:{
+        type:String
     },
 
     //  tokens: [{
@@ -24,10 +28,10 @@ const userSchema = mongoose.Schema({
         // unique: true,
         // match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
     },
-    phone_number:{
-        type: String,
-        required: false,
-    },
+    // phone_number:{
+    //     type: String,
+    //     required: false,
+    // },
     // appply_time:{
     //     type: Date,
     //     default:Date.now,
@@ -37,7 +41,8 @@ const userSchema = mongoose.Schema({
     password:{
         type: String,
         required: true
-    }, 
+    },
+
     confirm_password:{
         type: String,
         required: false,
@@ -46,6 +51,7 @@ const userSchema = mongoose.Schema({
         type: Date,
         default: Date.now
     }
+
     });
 
 userSchema.methods.generateAuthToken = async function() {
