@@ -65,6 +65,7 @@ router.post("/login", (req, res, next) => {
                 });
                 return res.status(200).json({
                     message: 'Auth successful',
+                    admin: admin[0],
                     token: token
                 });
             }
