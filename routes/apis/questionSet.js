@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const QuestionSet = require('../../models/QuestionSet');
+const TokenMiddleware = require('../../middleware/token');
+const ApplicantAns = require('../../models/ApplicantAns');
 
 // Create a Questionset
 router.post('/add', (req, res, next) => {
@@ -9,13 +11,15 @@ router.post('/add', (req, res, next) => {
       const quiz = req.body.quiz;
       const duration = req.body.duration;
       const dateOfAsess = req.body.dateOfAsess;
+      
   
       newQuestionSet = new QuestionSet({
-        nameOfSet: nameOfSet,
+          nameOfSet: nameOfSet,
           quiz: quiz,
           duration: duration,
           dateOfAsess: dateOfAsess,
-          timestamps: true
+          timestamps: true,
+          
       });
       newQuestionSet.save()
       .then(questionset => {
@@ -28,13 +32,21 @@ router.post('/add', (req, res, next) => {
   });
 
   // Get one questionset
-router.get('/single/:id', (req, res, next) => {
+router.get('/single/:id', TokenMiddleware, (req, res, next) => {
+  const {userId} = req.decoded;
+  console.log( "user id " + userId)
   //Grab the id of the questionset
   let id = req.params.id;
-  QuestionSet.findById(id)
-      .then((questionset) => {
-        console.log(questionset)
-          res.json(questionset);
+  ApplicantAns.find({userId})
+      .then((response) => {
+        QuestionSet.findById(id)
+        .then((questionset) => {
+          console.log(questionset)
+            res.json(questionset);
+        })
+        .catch(err => console.log(err))
+        console.log(response)
+          // res.json(questionset);
       })
       .catch(err => console.log(err))
 });
