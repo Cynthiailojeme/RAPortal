@@ -258,4 +258,20 @@ router.get('/scores', (req, res, next) => {
     })
 });
 
+router.delete('/:id', (req, res, next) => {
+    let id = req.params.id;
+    Recruit.findById(id)
+    .then(scores => {
+        scores.delete()
+        .then(scores =>{
+            res.send({message: 'Scores deleted succesfully',
+            status: 'success',
+            scores: scores})
+  
+        })
+        .catch(err => console.log(err))
+    })
+    .catch(err => console.log(err))
+  })
+
 module.exports = router;
