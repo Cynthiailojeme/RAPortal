@@ -9,9 +9,10 @@ router.post("/send", TokenMiddleware, (req, res, next) => {
   const answers = req.body.answers;
   const setId = req.body.setId;
   const { userId } = req.decoded;
+  console.log("User ID: " + userId)
+  //console.log(answers)
   const takenassessment = req.body.takenassessment
   let score = 0;
-
 
 
   QuestionSet.findById(setId)
@@ -19,9 +20,9 @@ router.post("/send", TokenMiddleware, (req, res, next) => {
       // console.log(questionset.quiz)
       for (var j = 0; j < answers.length; j++) {
         for (var k = 0; k < questionset.quiz.length; k++) {
-          console.log(answers[j].question_id, questionset.quiz[k]._id)
+          //console.log(answers[j].question_id, questionset.quiz[k]._id)
           if (answers[j].question_id == questionset.quiz[k]._id) {
-            console.log(answers[j].ans, questionset.quiz[k].correctAnswer)
+            //console.log(answers[j].ans, questionset.quiz[k].correctAnswer)
             if (answers[j].ans === questionset.quiz[k].correctAnswer) {
               score += 1;
             }
@@ -40,33 +41,74 @@ router.post("/send", TokenMiddleware, (req, res, next) => {
       });
 
 
-      ApplicantAns.findById(userId).then((result) => {
-        if(result == undefined || result.length == 0){
+      ApplicantAns.find({ userId }, function (err, result) {
+        if (err) {
+          console.log(err);
           res.status(400).json({
-            message: "No answer submitted yet"
+            message: "Error finding answer for user"
           });
-        }else{
-          res.status(400).json({
-            message: "User Already submitted assessment"
-          });
-        }
-        }).catch((err) => {
-          newApplicantAns.save()
-            .then(applicantans => {
-              res.status(200).json({
-                message: "Uploaded successfully",
-                applicantans
+        } else {
+          if (result.length == 0) {
+            newApplicantAns.save().then(applicantans => {
+                res.status(200).json({
+                  message: "Uploaded successfully",
+                  applicantans
+                });
+              }).catch((err) => {
+                console.log(err)
+                res.status(400).json({
+                  message: "Error Saving New Assessment"
+                });
               });
-            })
-            .catch(err => console.log(err));
-          console.log(score)
-          console.log(err)
-        })
+          } else if (result.length > 0) {
+            res.status(400).json({
+              message: "User Already Submitted Assessment"
+            });
+          }
+        }
+      })
+
+      // ApplicantAns.find({userId}).then((result) => {
+      //   console.log("Result is" + result)
+      //  if(result.length > 0){
+      //     res.status(400).json({
+      //       message: "User Already submitted assessment"
+      //     });
+      //   }
+      //   }).catch((err) => {
+      //     newApplicantAns.save()
+      //       .then(applicantans => {
+      //         res.status(200).json({
+      //           message: "Uploaded successfully",
+      //           applicantans
+      //         });
+      //       })
+      //       .catch(err => console.log(err));
+      //     console.log(score)
+      //     console.log(err)
+      //   })
 
 
     })
     .catch(err => console.log(err))
 });
+
+router.get("/takenassessment", TokenMiddleware, (req, res, next) => {
+  const { userId } = req.decoded;
+  ApplicantAns.find({ userId }, function (err, result) {
+    if (err) {
+      console.log(err);
+      res.status(400).json({
+        message: "Error finding answer for user"
+      });
+    } else  if (result.length > 0) {
+      res.status(200).json({
+        message: "Successfully fetched assessment status",
+        status: result[0].takenassessment
+      });
+    }
+  })
+})
 
 // delete at once all collections in the db
 router.delete('/empty', (req, res, next) => {
