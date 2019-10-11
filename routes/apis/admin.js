@@ -22,6 +22,7 @@ router.post('/signup', (req, res, next) => {
                         });
                     } else {
                         const admin = new Admin({
+                            name: req.body.name,
                             email: req.body.email,
                             password: hash
                         });

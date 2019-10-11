@@ -11,7 +11,7 @@ const ApplicantAnsSchema = mongoose.Schema({
       required: true
     },
     userId: {
-      type: String
+      type: mongoose.Schema.Types.ObjectId
     },
     token: {
       type: String

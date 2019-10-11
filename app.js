@@ -61,7 +61,7 @@ const createRoutes = require('./routes/apis/create');
 
 
 app.use('/api/admin', adminRoutes);
-app.use('/api/user', userRoutes);
+app.use('/api/user', userRoutes);0
 app.use('/api/form', formRoutes);
 app.use('/recruit', recruitRoutes);
 app.use('/attach', createRoutes);
