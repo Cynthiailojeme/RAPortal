@@ -7,7 +7,7 @@ const ApplicantAnsSchema = mongoose.Schema({
       type: Number
     },
     userId: {
-      type: String
+      type: mongoose.Schema.Types.ObjectId
     },
     token: {
       type: String

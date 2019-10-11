@@ -1,9 +1,20 @@
 const express = require('express');
 const router = express.Router();
 const QuestionSet = require('../../models/QuestionSet');
+const multer = require('multer');
+const path = require('path');
+
+var storage = multer.diskStorage({
+  destination: 'uploads',
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + file.fieldname + path.extname(file.originalname));    
+  }
+})
+
+const upload = multer({ storage: storage });
 
 // Create a Questionset
-router.post('/add', (req, res, next) => {
+router.post('/add', upload.single('image'), (req, res, next) => {
     console.log(req.body)
       const nameOfSet = req.body.nameOfSet;
       const quiz = req.body.quiz;

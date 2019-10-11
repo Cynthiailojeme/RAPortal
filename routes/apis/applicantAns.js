@@ -3,7 +3,7 @@ const router = express.Router();
 const ApplicantAns = require('../../models/ApplicantAns');
 const QuestionSet = require('../../models/QuestionSet');
 const TokenMiddleware = require('../../middleware/token');
-
+const mongoose = require('mongoose');
 
 router.post("/send", TokenMiddleware, (req, res, next) => {
       const answers = req.body.answers;
@@ -30,7 +30,7 @@ router.post("/send", TokenMiddleware, (req, res, next) => {
           answers: answers,
           setId: setId,
           score: score,
-          userId: userId,
+          userId: mongoose.Types.ObjectId(userId),
           timestamps: true
       });
       newApplicantAns.save()
