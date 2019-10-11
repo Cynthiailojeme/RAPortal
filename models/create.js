@@ -2,12 +2,12 @@ const mongoose = require('mongoose');
 
 const createSchema = mongoose.Schema({
 
-    // file:{
-    //     type: String,
-    //     required: false,  
-    // },
+    image:{
+        type: String,
+         
+    },
 
-    file:{ data: Buffer, contentType: String },
+    // file:{ data: Buffer, contentType: String },
 
     link:{
         type: String,

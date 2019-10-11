@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 
 const RecruitSchema = mongoose.Schema({
     _id:mongoose.Schema.Types.ObjectId,
+    // file{
+    //     data: Buffer, contentType: String
+    // }
+
 	first_name:{
         type: String,
         required: true

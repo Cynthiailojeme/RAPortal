@@ -2,10 +2,21 @@ const express = require('express');
 const multer = require('multer')
 const router = express.Router();
 const Create = require('../../models/create');
-const upload = multer({
-	dest: './uploads/'
+const path = require('path');
 
-})
+var storage = multer.diskStorage({
+    destination: 'uploads',
+    filename: function (req, file, cb) {
+      cb(null, Date.now() + file.fieldname + path.extname(file.originalname));    
+    }
+  })
+// const upload = multer({
+// 	dest: './uploads/'
+
+// })
+
+const upload = multer({ storage: storage });
+
 
 
 router.get('/', (req, res, next) => {
@@ -32,7 +43,7 @@ router.get('/', (req, res, next) => {
 
 
 
-    router.post('/upload', upload.single("file"),(req, res) =>{
+    router.post('/upload', upload.single("image"),(req, res) =>{
     	// res.json({
     	// 	// file:req.file,
     	// 	// link:req.body.link,
@@ -41,7 +52,9 @@ router.get('/', (req, res, next) => {
     	// 	// instruction: req.body.instruction
 
     	// });
-    	const file = req.file;
+         const image = req.file;
+
+    	// const image = req.image;
     	const link = req.body.link;
     	const application_date = req.body.application_date;
     	const batch_id = req.body.batch_id;
@@ -56,7 +69,7 @@ router.get('/', (req, res, next) => {
         
 
         newCreate = new Create({
-        	file:file,
+        	image:image,
         	link:link,
         	application_date:application_date,
         	batch_id:batch_id,
