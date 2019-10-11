@@ -6,6 +6,10 @@ const ApplicantAnsSchema = mongoose.Schema({
     score: {
       type: Number
     },
+    takenassessment: {
+      type: Boolean,
+      required: true
+    },
     userId: {
       type: mongoose.Schema.Types.ObjectId
     },
